@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using Xamarin.Forms;
+using Xamarin.Forms.Xaml;
+using XrnCourse.BucketList.Views;
 
-using Xamarin.Forms;
-
+[assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace XrnCourse.BucketList
 {
     public partial class App : Application
@@ -12,8 +10,7 @@ namespace XrnCourse.BucketList
         public App()
         {
             InitializeComponent();
-
-            MainPage = new XrnCourse.BucketList.MainPage();
+            MainPage = new NavigationPage(new MainView());
         }
 
         protected override void OnStart()
