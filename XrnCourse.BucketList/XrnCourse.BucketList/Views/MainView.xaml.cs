@@ -23,6 +23,23 @@ namespace XrnCourse.BucketList.Views
             settingsService = new AppSettingsInMemoryService();
             bucketListService = new BucketsInMemoryService();
         }
+
+        protected async override void OnAppearing()
+        {
+            await RefreshBucketLists();
+            base.OnAppearing();
+        }
+
+        private async Task RefreshBucketLists()
+        {
+            //get settings, because we need current user Id
+            var settings = await settingsService.GetSettings();
+            //get all bucket lists for this user
+            var buckets = await bucketListService.GetBucketListsForUser(settings.CurrentUserId);
+            //bind IEnumerable<Bucket> to the ListView's ItemSource
+            lvBucketLists.ItemsSource = buckets;
+        }
+
         private async void btnSettings_Clicked(object sender, EventArgs e)
         {
             await Navigation.PushAsync(new SettingsView());
@@ -30,6 +47,18 @@ namespace XrnCourse.BucketList.Views
         private async void btnAddBucketList_Clicked(object sender, EventArgs e)
         {
             await Navigation.PushAsync(new BucketsView());
+        }
+        private async void lvBucketLists_ItemTapped(object sender, ItemTappedEventArgs e)
+        {
+            //mark item as unselected
+            //lvBucketLists.SelectedItem = null;
+            //get the item on which we received a tap
+            var bucket = e.Item as Bucket;
+            if (bucket != null)
+            {
+                await DisplayAlert("Tap!", $"Congratulations!\nYou tapped {bucket.Title}", "Uh, ok..");
+                await Navigation.PushAsync(new BucketsView());
+            }
         }
     }
 }

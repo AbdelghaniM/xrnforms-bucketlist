@@ -7,5 +7,13 @@
         <ToolbarItem Text="Add List" Clicked="btnAddBucketList_Clicked"></ToolbarItem>
         <ToolbarItem Text="&#x2699;" Clicked="btnSettings_Clicked"></ToolbarItem>
     </ContentPage.ToolbarItems>
-    <Label>Your Bucket Lists will appear here</Label>
+    <StackLayout Style="{StaticResource MainLayout}">
+        <ListView x:Name="lvBucketLists" ItemTapped="lvBucketLists_ItemTapped">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <TextCell Text="{Binding Title}" />
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </StackLayout>
 </ContentPage>
