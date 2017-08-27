@@ -47,8 +47,9 @@ namespace XrnCourse.BucketList.Views
         }
         private async void btnAddBucketList_Clicked(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new BucketView());
+            await Navigation.PushAsync(new BucketView(null));
         }
+
         private async void lvBucketLists_ItemTapped(object sender, ItemTappedEventArgs e)
         {
             //mark item as unselected
@@ -57,16 +58,14 @@ namespace XrnCourse.BucketList.Views
             var bucket = e.Item as Bucket;
             if (bucket != null)
             {
-                await DisplayAlert("Tap!", $"Congratulations!\nYou tapped {bucket.Title}", "Uh, ok..");
-                await Navigation.PushAsync(new BucketView());
+                await Navigation.PushAsync(new BucketView(bucket));
             }
         }
 
         private async void mnuBucketEdit_Clicked(object sender, EventArgs e)
         {
             var selectedBucket = ((MenuItem)sender).CommandParameter as Bucket;
-            await DisplayAlert("Edit", $"Editing  {selectedBucket.Title}", "OK");
-            await Navigation.PushAsync(new BucketView());
+            await Navigation.PushAsync(new BucketView(selectedBucket));
         }
 
         private async void mnuBucketDelete_Clicked(object sender, EventArgs e)
