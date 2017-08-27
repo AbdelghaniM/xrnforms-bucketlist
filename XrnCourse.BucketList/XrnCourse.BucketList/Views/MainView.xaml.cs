@@ -60,5 +60,17 @@ namespace XrnCourse.BucketList.Views
                 await Navigation.PushAsync(new BucketsView());
             }
         }
+
+        private async void mnuBucketEdit_Clicked(object sender, EventArgs e)
+        {
+            var selectedBucket = ((MenuItem)sender).CommandParameter as Bucket;
+            await DisplayAlert("Edit", $"Editing  {selectedBucket.Title}", "OK");
+        }
+
+        private async void mnuBucketDelete_Clicked(object sender, EventArgs e)
+        {
+            var selectedBucket = ((MenuItem)sender).CommandParameter as Bucket;
+            await DisplayAlert("Delete", $"Deleting  {selectedBucket.Title}", "OK");
+        }
     }
 }

@@ -11,7 +11,17 @@
         <ListView x:Name="lvBucketLists" ItemTapped="lvBucketLists_ItemTapped">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <TextCell Text="{Binding Title}" />
+                    <ViewCell>
+                        <ViewCell.ContextActions>
+                            <MenuItem Clicked="mnuBucketEdit_Clicked" CommandParameter="{Binding .}" Text="Edit" />
+                            <MenuItem Clicked="mnuBucketDelete_Clicked" CommandParameter="{Binding .}" Text="Delete"
+                                      IsDestructive="True" />
+                        </ViewCell.ContextActions>
+                        <StackLayout HeightRequest="50">
+                            <Label Text="{Binding Title}" 
+                                    VerticalOptions="CenterAndExpand" HorizontalOptions="StartAndExpand" />
+                        </StackLayout>
+                    </ViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
