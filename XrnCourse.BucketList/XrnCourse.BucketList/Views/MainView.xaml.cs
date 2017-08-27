@@ -37,6 +37,7 @@ namespace XrnCourse.BucketList.Views
             //get all bucket lists for this user
             var buckets = await bucketListService.GetBucketListsForUser(settings.CurrentUserId);
             //bind IEnumerable<Bucket> to the ListView's ItemSource
+            lvBucketLists.ItemsSource = null;    //Important! ensure the list is empty first to force refresh!
             lvBucketLists.ItemsSource = buckets;
         }
 
@@ -65,12 +66,14 @@ namespace XrnCourse.BucketList.Views
         {
             var selectedBucket = ((MenuItem)sender).CommandParameter as Bucket;
             await DisplayAlert("Edit", $"Editing  {selectedBucket.Title}", "OK");
+            await Navigation.PushAsync(new BucketsView());
         }
 
         private async void mnuBucketDelete_Clicked(object sender, EventArgs e)
         {
             var selectedBucket = ((MenuItem)sender).CommandParameter as Bucket;
-            await DisplayAlert("Delete", $"Deleting  {selectedBucket.Title}", "OK");
+            await bucketListService.DeleteBucketList(selectedBucket.Id);
+            await RefreshBucketLists();
         }
     }
 }
