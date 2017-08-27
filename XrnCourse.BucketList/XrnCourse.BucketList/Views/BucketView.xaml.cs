@@ -9,9 +9,9 @@ using Xamarin.Forms.Xaml;
 
 namespace XrnCourse.BucketList.Views
 {
-    public partial class BucketsView : ContentPage
+    public partial class BucketView : ContentPage
     {
-        public BucketsView()
+        public BucketView()
         {
             InitializeComponent();
         }

@@ -50,8 +50,8 @@
     <Compile Include="Views\AddItemView.xaml.cs">
       <DependentUpon>AddItemView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\BucketsView.xaml.cs">
-      <DependentUpon>BucketsView.xaml</DependentUpon>
+    <Compile Include="Views\BucketView.xaml.cs">
+      <DependentUpon>BucketView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MainView.xaml.cs">
       <DependentUpon>MainView.xaml</DependentUpon>
@@ -81,7 +81,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Views\BucketsView.xaml">
+    <EmbeddedResource Include="Views\BucketView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>
