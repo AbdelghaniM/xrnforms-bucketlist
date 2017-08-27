@@ -35,5 +35,34 @@ namespace XrnCourse.BucketList.Views
                 Title = currentBucket.Title;
             }
         }
+
+        protected override void OnAppearing()
+        {
+            LoadBucketState();
+            base.OnAppearing();
+        }
+
+        private void LoadBucketState()
+        {
+            txtTitle.Text = currentBucket.Title;
+            txtDescription.Text = currentBucket.Description;
+            swIsFavorite.IsToggled = currentBucket.IsFavorite;
+            lblPercentComplete.Text = currentBucket.PercentCompleted.ToString("P0");
+        }
+
+        private void SaveBucketState()
+        {
+            currentBucket.Title = txtTitle.Text;
+            currentBucket.Description = txtDescription.Text;
+            currentBucket.IsFavorite = swIsFavorite.IsToggled;
+        }
+
+        private async void btnSave_Clicked(object sender, EventArgs e)
+        {
+            SaveBucketState();
+            await bucketService.SaveBucketList(currentBucket);
+            await DisplayAlert("Saved", $"Your bucket list {currentBucket.Title} has been saved", "Ok");
+        }
+
     }
 }

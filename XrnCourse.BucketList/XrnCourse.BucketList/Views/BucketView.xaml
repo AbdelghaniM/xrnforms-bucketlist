@@ -2,9 +2,27 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="XrnCourse.BucketList.Views.BucketView">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Save" Clicked="btnSave_Clicked"></ToolbarItem>
+    </ContentPage.ToolbarItems>
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin Forms!" />
+        <StackLayout Style="{StaticResource MainLayout}">
+            <Label Text="Title" />
+            <Entry x:Name="txtTitle" Placeholder="Enter a title" />
+            <Label Text="Description" />
+            <Entry x:Name="txtDescription" Placeholder="Describe your list here" />
+            <StackLayout Orientation="Horizontal">
+                <Label Text="Is favorite?" 
+                        VerticalOptions="Center" HorizontalOptions="StartAndExpand" />
+                <Switch x:Name="swIsFavorite" 
+                        VerticalOptions="Center" HorizontalOptions="End" />
+            </StackLayout>
+            <StackLayout Orientation="Horizontal">
+                <Label Text="Percent complete" 
+                        VerticalOptions="Center" HorizontalOptions="StartAndExpand" />
+                <Label x:Name="lblPercentComplete" 
+                        VerticalOptions="Center" HorizontalOptions="End" />
+            </StackLayout>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
