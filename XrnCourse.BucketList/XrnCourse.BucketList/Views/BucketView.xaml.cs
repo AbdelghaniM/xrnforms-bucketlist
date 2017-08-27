@@ -56,11 +56,13 @@ namespace XrnCourse.BucketList.Views
             currentBucket.Description = txtDescription.Text;
             currentBucket.IsFavorite = swIsFavorite.IsToggled;
         }
-
+        
         private async void btnSave_Clicked(object sender, EventArgs e)
         {
             SaveBucketState();
+            busyIndicator.IsVisible = true;
             await bucketService.SaveBucketList(currentBucket);
+            busyIndicator.IsVisible = false;
             await DisplayAlert("Saved", $"Your bucket list {currentBucket.Title} has been saved", "Ok");
         }
 

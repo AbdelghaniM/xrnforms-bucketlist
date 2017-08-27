@@ -6,23 +6,42 @@
         <ToolbarItem Text="Save" Clicked="btnSave_Clicked"></ToolbarItem>
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
-        <StackLayout Style="{StaticResource MainLayout}">
-            <Label Text="Title" />
-            <Entry x:Name="txtTitle" Placeholder="Enter a title" />
-            <Label Text="Description" />
-            <Entry x:Name="txtDescription" Placeholder="Describe your list here" />
-            <StackLayout Orientation="Horizontal">
-                <Label Text="Is favorite?" 
+        <AbsoluteLayout>
+            <ScrollView AbsoluteLayout.LayoutFlags="All"
+                        AbsoluteLayout.LayoutBounds="0,0,1,1">
+                <StackLayout Style="{StaticResource MainLayout}">
+                    <Label Text="Title" />
+                    <Entry x:Name="txtTitle" Placeholder="Enter a title" />
+                    <Label Text="Description" />
+                    <Entry x:Name="txtDescription" Placeholder="Describe your list here" />
+                    <StackLayout Orientation="Horizontal">
+                        <Label Text="Is favorite?" 
                         VerticalOptions="Center" HorizontalOptions="StartAndExpand" />
-                <Switch x:Name="swIsFavorite" 
+                        <Switch x:Name="swIsFavorite" 
                         VerticalOptions="Center" HorizontalOptions="End" />
-            </StackLayout>
-            <StackLayout Orientation="Horizontal">
-                <Label Text="Percent complete" 
+                    </StackLayout>
+                    <StackLayout Orientation="Horizontal">
+                        <Label Text="Percent complete" 
                         VerticalOptions="Center" HorizontalOptions="StartAndExpand" />
-                <Label x:Name="lblPercentComplete" 
+                        <Label x:Name="lblPercentComplete" 
                         VerticalOptions="Center" HorizontalOptions="End" />
+                    </StackLayout>
+                </StackLayout>
+            </ScrollView>
+            <StackLayout x:Name="busyIndicator" 
+                    AbsoluteLayout.LayoutFlags="All"
+                    AbsoluteLayout.LayoutBounds="0,0,1,1"
+                    IsVisible="False" BackgroundColor="#ffffff">
+                <ActivityIndicator IsRunning="True" Color="Accent" 
+                                   HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+                    <ActivityIndicator.WidthRequest>
+                        <OnPlatform x:TypeArguments="x:Double">
+                            <On Platform="iOS, Android">50</On>
+                            <On Platform="Windows">200</On>
+                        </OnPlatform>
+                    </ActivityIndicator.WidthRequest>
+                </ActivityIndicator>
             </StackLayout>
-        </StackLayout>
+        </AbsoluteLayout>
     </ContentPage.Content>
 </ContentPage>
