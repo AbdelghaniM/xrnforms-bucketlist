@@ -32,6 +32,7 @@ namespace XrnCourse.BucketList.Views
 
         private async Task RefreshBucketLists()
         {
+            busyIndicator.IsVisible = true;
             //get settings, because we need current user Id
             var settings = await settingsService.GetSettings();
             //get all bucket lists for this user
@@ -39,6 +40,7 @@ namespace XrnCourse.BucketList.Views
             //bind IEnumerable<Bucket> to the ListView's ItemSource
             lvBucketLists.ItemsSource = null;    //Important! ensure the list is empty first to force refresh!
             lvBucketLists.ItemsSource = buckets;
+            busyIndicator.IsVisible = false;
         }
 
         private async void btnSettings_Clicked(object sender, EventArgs e)
