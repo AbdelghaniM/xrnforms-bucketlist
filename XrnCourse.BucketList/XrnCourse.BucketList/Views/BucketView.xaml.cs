@@ -60,11 +60,39 @@ namespace XrnCourse.BucketList.Views
         private async void btnSave_Clicked(object sender, EventArgs e)
         {
             SaveBucketState();
-            busyIndicator.IsVisible = true;
-            await bucketService.SaveBucketList(currentBucket);
-            busyIndicator.IsVisible = false;
-            await DisplayAlert("Saved", $"Your bucket list {currentBucket.Title} has been saved", "Ok");
+            if (Validate(currentBucket))
+            {
+                busyIndicator.IsVisible = true;
+                await bucketService.SaveBucketList(currentBucket);
+                busyIndicator.IsVisible = false;
+                await DisplayAlert("Saved", $"Your bucket list {currentBucket.Title} has been saved", "Ok");
+            }
         }
 
+        private bool Validate(Bucket bucket)
+        {
+            bool error = false;
+            if (string.IsNullOrWhiteSpace(bucket.Title))
+            {
+                error = true;
+                lblErrorTitle.Text = "Title cannot be empty";
+                lblErrorTitle.IsVisible = true;
+            }
+            if (string.IsNullOrWhiteSpace(bucket.Description))
+            {
+                error = true;
+                lblErrorDescription.Text = "Description cannot be empty";
+                lblErrorDescription.IsVisible = true;
+            }
+
+            if (!error)
+            {
+                lblErrorTitle.Text = "";
+                lblErrorTitle.IsVisible = false;
+                lblErrorDescription.Text = "";
+                lblErrorDescription.IsVisible = false;
+            }
+            return !error;
+        }
     }
 }
