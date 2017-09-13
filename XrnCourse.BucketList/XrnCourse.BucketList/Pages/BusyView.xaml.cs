@@ -1,6 +1,6 @@
 ﻿using Xamarin.Forms;
 
-namespace XrnCourse.BucketList.Views
+namespace XrnCourse.BucketList.Pages
 {
     public partial class BusyView : ContentView
     {

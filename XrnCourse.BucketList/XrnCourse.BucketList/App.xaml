@@ -1,10 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Application xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:views="clr-namespace:XrnCourse.BucketList.Views"
+             xmlns:views="clr-namespace:XrnCourse.BucketList.Pages"
+             xmlns:conv="clr-namespace:XrnCourse.BucketList.Converters"
              x:Class="XrnCourse.BucketList.App">
     <Application.Resources>
         <ResourceDictionary>
+            <!-- Converters -->
+            <conv:ItemTappedEventArgsConverter x:Key="ItemTappedEventArgsConv" />
+            
             <!-- Common Colors -->
             <Color x:Key="ColorPrimary">#2196F3</Color>
             <Color x:Key="ColorSecundary">#1976D2</Color>

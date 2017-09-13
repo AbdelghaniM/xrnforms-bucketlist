@@ -10,5 +10,10 @@ namespace XrnCourse.BucketList
             /// </summary>
             public const int FakeDelay = 1000;
         }
+
+        public static class MessageNames
+        {
+            public const string BucketSaved = "BUCKETSAVED";
+        }
     }
 }

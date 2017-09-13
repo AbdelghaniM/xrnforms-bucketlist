@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace XrnCourse.BucketList.Views
+namespace XrnCourse.BucketList.Pages
 {
-    public partial class AddItemView : ContentPage
+    public partial class AddItemPage : ContentPage
     {
-        public AddItemView()
+        public AddItemPage()
         {
             InitializeComponent();
         }

@@ -1,6 +1,7 @@
-﻿using Xamarin.Forms;
+﻿using FreshMvvm;
+using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-using XrnCourse.BucketList.Views;
+using XrnCourse.BucketList.ViewModels;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace XrnCourse.BucketList
@@ -10,7 +11,11 @@ namespace XrnCourse.BucketList
         public App()
         {
             InitializeComponent();
-            MainPage = new NavigationPage(new MainView());
+
+            var navigationContainer = new FreshNavigationContainer(FreshPageModelResolver.ResolvePageModel<MainViewModel>());
+
+            FreshIOC.Container.Register<INavigation>(navigationContainer.Navigation);
+            MainPage = navigationContainer;
         }
 
         protected override void OnStart()

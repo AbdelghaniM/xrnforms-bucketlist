@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="XrnCourse.BucketList.Pages.SettingsPage"
+             Title="Settings">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Save" Command="{Binding SaveSettingsCommand}"></ToolbarItem>
+    </ContentPage.ToolbarItems>
+    <TableView>
+        <TableRoot>
+            <TableSection Title="User settings">
+                <EntryCell Text="{Binding UserName}" Placeholder="Enter your username" Label="Username" Keyboard="Text" />
+                <EntryCell Text="{Binding Email}" Placeholder="Enter your e-mail" Label="E-mail" Keyboard="Email" />
+            </TableSection>
+            <TableSection Title="General settings">
+                <SwitchCell On="{Binding EnableListSharing}" Text="Enable List sharing" />
+                <SwitchCell On="{Binding EnableNotifications}" Text="Enable notifications" />
+            </TableSection>
+        </TableRoot>
+    </TableView>
+</ContentPage>

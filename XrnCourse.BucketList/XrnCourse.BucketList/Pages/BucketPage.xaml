@@ -1,10 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:views="clr-namespace:XrnCourse.BucketList.Views"
-             x:Class="XrnCourse.BucketList.Views.BucketView">
+             xmlns:views="clr-namespace:XrnCourse.BucketList.Pages"
+             Title="{Binding PageTitle}"
+             x:Class="XrnCourse.BucketList.Pages.BucketPage">
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Save" Clicked="btnSave_Clicked"></ToolbarItem>
+        <ToolbarItem Text="Save" Command="{Binding SaveBucketCommand}"></ToolbarItem>
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <AbsoluteLayout>
@@ -12,26 +13,30 @@
                         AbsoluteLayout.LayoutBounds="0,0,1,1">
                 <StackLayout Style="{StaticResource MainLayout}">
                     <Label Text="Title" />
-                    <Entry x:Name="txtTitle" Placeholder="Enter a title" />
-                    <Label x:Name="lblErrorTitle" Style="{StaticResource ErrorMessage}" />
+                    <Entry Text="{Binding BucketTitle}" Placeholder="Enter a title" />
+                    <Label Text="{Binding BucketTitleError}" 
+                           IsVisible="{Binding BucketTitleErrorVisible}" 
+                           Style="{StaticResource ErrorMessage}" />
                     <Label Text="Description" />
-                    <Entry x:Name="txtDescription" Placeholder="Describe your list here" />
-                    <Label x:Name="lblErrorDescription" Style="{StaticResource ErrorMessage}" />
+                    <Entry Text="{Binding BucketDescription}" Placeholder="Describe your list here" />
+                    <Label Text="{Binding BucketDescriptionError}" 
+                           IsVisible="{Binding BucketDescriptionErrorVisible}" 
+                           Style="{StaticResource ErrorMessage}" />
                     <StackLayout Orientation="Horizontal">
                         <Label Text="Is favorite?" 
                         VerticalOptions="Center" HorizontalOptions="StartAndExpand" />
-                        <Switch x:Name="swIsFavorite" 
+                        <Switch IsToggled="{Binding BucketIsFavorite}"
                         VerticalOptions="Center" HorizontalOptions="End" />
                     </StackLayout>
                     <StackLayout Orientation="Horizontal">
                         <Label Text="Percent complete" 
                         VerticalOptions="Center" HorizontalOptions="StartAndExpand" />
-                        <Label x:Name="lblPercentComplete" 
+                        <Label Text="{Binding BucketPercentComplete}" 
                         VerticalOptions="Center" HorizontalOptions="End" />
                     </StackLayout>
                 </StackLayout>
             </ScrollView>
-            <views:BusyView x:Name="busyIndicator" />
+            <views:BusyView IsVisible="{Binding IsBusy}" />
         </AbsoluteLayout>
     </ContentPage.Content>
 </ContentPage>

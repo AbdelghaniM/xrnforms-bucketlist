@@ -38,7 +38,10 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Behaviors\BindableBehavior.cs" />
+    <Compile Include="Behaviors\EventToCommandBehavior.cs" />
     <Compile Include="Constants.cs" />
+    <Compile Include="Converters\ItemTappedEventArgsConverter.cs" />
     <Compile Include="Domain\Models\Bucket.cs" />
     <Compile Include="Domain\Models\AppSettings.cs" />
     <Compile Include="Domain\Models\BucketItem.cs" />
@@ -48,21 +51,25 @@
     <Compile Include="Domain\Services\UsersInMemoryService.cs" />
     <Compile Include="Domain\Validators\BucketValidator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Views\AddItemView.xaml.cs">
-      <DependentUpon>AddItemView.xaml</DependentUpon>
+    <Compile Include="Pages\AddItemPage.xaml.cs">
+      <DependentUpon>AddItemPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\BucketView.xaml.cs">
-      <DependentUpon>BucketView.xaml</DependentUpon>
+    <Compile Include="Pages\BucketPage.xaml.cs">
+      <DependentUpon>BucketPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\BusyView.xaml.cs">
+    <Compile Include="Pages\BusyView.xaml.cs">
       <DependentUpon>BusyView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\MainView.xaml.cs">
-      <DependentUpon>MainView.xaml</DependentUpon>
+    <Compile Include="Pages\MainPage.xaml.cs">
+      <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\SettingsView.xaml.cs">
-      <DependentUpon>SettingsView.xaml</DependentUpon>
+    <Compile Include="Pages\SettingsPage.xaml.cs">
+      <DependentUpon>SettingsPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ViewModels\AddItemViewModel.cs" />
+    <Compile Include="ViewModels\SettingsViewModel.cs" />
+    <Compile Include="ViewModels\BucketViewModel.cs" />
+    <Compile Include="ViewModels\MainViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="App.xaml">
@@ -73,6 +80,12 @@
   <ItemGroup>
     <Reference Include="FluentValidation, Version=7.0.0.0, Culture=neutral, PublicKeyToken=7de548da2fbae0f0, processorArchitecture=MSIL">
       <HintPath>..\..\packages\FluentValidation.7.1.1\lib\netstandard1.0\FluentValidation.dll</HintPath>
+    </Reference>
+    <Reference Include="FreshIOC, Version=1.0.6071.17008, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\FreshMvvm.2.2.0\lib\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\FreshIOC.dll</HintPath>
+    </Reference>
+    <Reference Include="FreshMvvm, Version=1.0.6071.17008, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\FreshMvvm.2.2.0\lib\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\FreshMvvm.dll</HintPath>
     </Reference>
     <Reference Include="Xamarin.Forms.Core, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Xamarin.Forms.2.3.4.267\lib\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.Core.dll</HintPath>
@@ -88,31 +101,31 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Views\BucketView.xaml">
+    <EmbeddedResource Include="Pages\BucketPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Views\MainView.xaml">
+    <EmbeddedResource Include="Pages\MainPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Views\AddItemView.xaml">
+    <EmbeddedResource Include="Pages\AddItemPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Views\SettingsView.xaml">
+    <EmbeddedResource Include="Pages\SettingsPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Views\BusyView.xaml">
+    <EmbeddedResource Include="Pages\BusyView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>
