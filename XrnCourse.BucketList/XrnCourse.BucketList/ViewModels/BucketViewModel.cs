@@ -21,7 +21,6 @@ namespace XrnCourse.BucketList.ViewModels
             bucketService = new BucketsInMemoryService();
 
             bucketValidator = new BucketValidator();
-
         }
 
         #region Properties
@@ -74,7 +73,7 @@ namespace XrnCourse.BucketList.ViewModels
 
         public bool BucketTitleErrorVisible
         {
-            get { return !string.IsNullOrWhiteSpace(BucketDescriptionError); }
+            get { return !string.IsNullOrWhiteSpace(BucketTitleError); }
         }
 
         private string bucketDescription;
