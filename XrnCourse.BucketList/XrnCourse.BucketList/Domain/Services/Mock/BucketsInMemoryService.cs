@@ -13,13 +13,14 @@ namespace XrnCourse.BucketList.Domain.Services.Mock
         {
             get
             {
-                if(bucketLists == null)
+                if (bucketLists == null)
                     bucketLists = InitializeBucketList();
                 return bucketLists;
             }
         }
 
-        private static List<Bucket> InitializeBucketList() {
+        private static List<Bucket> InitializeBucketList()
+        {
             var buckets = new List<Bucket>
             {
                 new Bucket{
@@ -28,7 +29,7 @@ namespace XrnCourse.BucketList.Domain.Services.Mock
                     Title = "Siegfried's first bucket list",
                     Description = "A simple bucket list",
                     ImageUrl = null, IsFavorite = true,
-                    
+
                 }
             };
 

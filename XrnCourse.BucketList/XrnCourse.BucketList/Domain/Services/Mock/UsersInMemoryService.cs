@@ -6,7 +6,7 @@ using XrnCourse.BucketList.Domain.Models;
 
 namespace XrnCourse.BucketList.Domain.Services.Mock
 {
-    public class UsersInMemoryService
+    public class UsersInMemoryService 
     {
         private static List<User> users = new List<User>
         {
