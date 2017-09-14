@@ -1,30 +1,31 @@
-﻿using System;
-using FreshMvvm;
-using XrnCourse.BucketList.Domain.Services;
+﻿using FreshMvvm;
+using System;
+using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
-using System.Collections.ObjectModel;
 using XrnCourse.BucketList.Domain.Models;
-using System.Threading.Tasks;
+using XrnCourse.BucketList.Domain.Services.Mock;
 
 namespace XrnCourse.BucketList.ViewModels
 {
     public class MainViewModel : FreshBasePageModel
     {
-        BucketsInMemoryService bucketListService;
         AppSettingsInMemoryService settingsService;
+        BucketsInMemoryService bucketListService;
 
         public MainViewModel()
         {
-            settingsService = new AppSettingsInMemoryService();
-            bucketListService = new BucketsInMemoryService();
+            this.settingsService = new AppSettingsInMemoryService();
+            this.bucketListService = new BucketsInMemoryService();
         }
 
         private bool isBusy;
         public bool IsBusy
         {
             get { return isBusy; }
-            set {
+            set
+            {
                 isBusy = value;
                 RaisePropertyChanged(nameof(IsBusy));
             }
@@ -79,7 +80,5 @@ namespace XrnCourse.BucketList.ViewModels
             Buckets = new ObservableCollection<Bucket>(buckets);
             IsBusy = false;
         }
-
-
     }
 }

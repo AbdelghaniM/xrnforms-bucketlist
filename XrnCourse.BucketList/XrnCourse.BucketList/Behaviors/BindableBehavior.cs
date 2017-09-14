@@ -10,7 +10,6 @@ namespace XrnCourse.BucketList.Behaviors
         protected override void OnAttachedTo(T visualElement)
         {
             base.OnAttachedTo(visualElement);
-
             AssociatedObject = visualElement;
 
             if (visualElement.BindingContext != null)

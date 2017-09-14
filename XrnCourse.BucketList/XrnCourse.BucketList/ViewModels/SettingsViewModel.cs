@@ -1,21 +1,19 @@
 ﻿using FreshMvvm;
 using System.Windows.Input;
 using Xamarin.Forms;
-using XrnCourse.BucketList.Domain.Services;
+using XrnCourse.BucketList.Domain.Services.Mock;
 
 namespace XrnCourse.BucketList.ViewModels
 {
     public class SettingsViewModel : FreshBasePageModel
     {
-        INavigation navigation;
         AppSettingsInMemoryService settingsService;
         UsersInMemoryService usersService;
 
-        public SettingsViewModel(INavigation navigation)
+        public SettingsViewModel()
         {
-            this.navigation = navigation;
-            settingsService = new AppSettingsInMemoryService();
-            usersService = new UsersInMemoryService();
+            this.settingsService = new AppSettingsInMemoryService();
+            this.usersService = new UsersInMemoryService();
         }
 
         #region Properties
@@ -24,7 +22,9 @@ namespace XrnCourse.BucketList.ViewModels
         public string UserName
         {
             get { return username; }
-            set { username = value;
+            set
+            {
+                username = value;
                 RaisePropertyChanged(nameof(UserName));
             }
         }
@@ -70,6 +70,8 @@ namespace XrnCourse.BucketList.ViewModels
         /// <param name="initData"></param>
         public async override void Init(object initData)
         {
+            base.Init(initData);
+
             //get settings and intialize controls
             var settings = await settingsService.GetSettings();
             EnableListSharing = settings.EnableListSharing;
@@ -79,8 +81,6 @@ namespace XrnCourse.BucketList.ViewModels
             var currentUser = await usersService.GetUserById(settings.CurrentUserId);
             UserName = currentUser.UserName;
             Email = currentUser.Email;
-
-            base.Init(initData);
         }
 
         public ICommand SaveSettingsCommand => new Command(
@@ -97,8 +97,8 @@ namespace XrnCourse.BucketList.ViewModels
                 user.Email = Email?.Trim();
                 await usersService.SaveUser(user);
 
-                //close settings page
-                await this.navigation.PopAsync();
+                //use coremethodes to Pop pages in FreshMvvm!
+                await CoreMethods.PopPageModel(false, true);
             }
         );
     }

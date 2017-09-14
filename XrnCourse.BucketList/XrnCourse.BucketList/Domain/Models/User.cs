@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace XrnCourse.BucketList.Domain.Models
 {
@@ -7,5 +8,6 @@ namespace XrnCourse.BucketList.Domain.Models
         public Guid Id { get; set; }
         public string UserName { get; set; }
         public string Email { get; set; }
+        public List<Bucket> OwnedBuckets { get; set; }
     }
 }

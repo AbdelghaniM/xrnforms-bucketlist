@@ -10,7 +10,6 @@ namespace XrnCourse.BucketList.Behaviors
 {
     public class EventToCommandBehavior : BindableBehavior<View>
     {
-
         public static BindableProperty EventNameProperty =
             BindableProperty.CreateAttached("EventName", typeof(string), typeof(EventToCommandBehavior), null,
                 BindingMode.OneWay);

@@ -11,11 +11,8 @@ namespace XrnCourse.BucketList
         public App()
         {
             InitializeComponent();
-
-            var navigationContainer = new FreshNavigationContainer(FreshPageModelResolver.ResolvePageModel<MainViewModel>());
-
-            FreshIOC.Container.Register<INavigation>(navigationContainer.Navigation);
-            MainPage = navigationContainer;
+            
+            MainPage = new FreshNavigationContainer(FreshPageModelResolver.ResolvePageModel<MainViewModel>());
         }
 
         protected override void OnStart()

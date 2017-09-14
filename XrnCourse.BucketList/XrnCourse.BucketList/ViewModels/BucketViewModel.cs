@@ -1,29 +1,31 @@
 ﻿using FluentValidation;
 using FreshMvvm;
+using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 using XrnCourse.BucketList.Domain.Models;
-using XrnCourse.BucketList.Domain.Services;
+using XrnCourse.BucketList.Domain.Services.Mock;
 using XrnCourse.BucketList.Domain.Validators;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace XrnCourse.BucketList.ViewModels
 {
     public class BucketViewModel : FreshBasePageModel
     {
-        private BucketsInMemoryService bucketService;
         private AppSettingsInMemoryService settingsService;
+        private BucketsInMemoryService bucketService;
+        private UsersInMemoryService usersService;
         private Bucket currentBucket;
+        private User currentUser;
         private IValidator bucketValidator;
 
         public BucketViewModel()
         {
-            settingsService = new AppSettingsInMemoryService();
-            bucketService = new BucketsInMemoryService();
-
+            this.settingsService = new AppSettingsInMemoryService();
+            this.bucketService = new BucketsInMemoryService();
+            this.usersService = new UsersInMemoryService();
             bucketValidator = new BucketValidator();
         }
 
@@ -146,40 +148,57 @@ namespace XrnCourse.BucketList.ViewModels
         /// Callled whenever the page is navigated to.
         /// </summary>
         /// <param name="initData"></param>
-        public override void Init(object initData)
+        public async override void Init(object initData)
         {
-            Bucket bucket = initData as Bucket;
-            if (bucket == null)
+            base.Init(initData);
+
+            currentBucket = initData as Bucket;
+
+            var settings = await settingsService.GetSettings();
+            currentUser = await usersService.GetUserById(settings.CurrentUserId);
+
+            await RefreshBucket();
+        }
+
+        /// <summary>
+        /// Executed when returning to this Model from a previous model
+        /// </summary>
+        /// <param name="returnedData"></param>
+        public override void ReverseInit(object returnedData)
+        {
+            base.ReverseInit(returnedData);
+            if (returnedData is BucketItem)
             {
-                currentBucket = new Bucket();
-                currentBucket.Items = new List<BucketItem>();
-                PageTitle = "New Bucket List";
+                //refresh list, to update this item visually
+                LoadBucketState();
+            }
+        }
+
+        /// <summary>
+        /// Refreshes the currentBucket (to edit) or initializes a new one (to add)
+        /// </summary>
+        /// <returns></returns>
+        private async Task RefreshBucket()
+        {
+            if (currentBucket != null)
+            {
+                PageTitle = currentBucket.Title;
+                currentBucket = await bucketService.GetBucketList(currentBucket.Id);
             }
             else
             {
-                currentBucket = bucket;
-                PageTitle = currentBucket.Title;
+                PageTitle = "New Bucket List";
+                currentBucket = new Bucket();
+                currentBucket.Id = Guid.NewGuid();
+                currentBucket.Owner = currentUser;
+                currentBucket.Items = new List<BucketItem>();
             }
-
-            base.Init(initData);
-        }
-
-        
-        protected async override void ViewIsAppearing(object sender, EventArgs e)
-        {
-            base.ViewIsAppearing(sender, e);
-            if(currentBucket.Id != Guid.Empty)
-            {
-                await RefreshBucket();
-            }
-        }
-
-        private async Task RefreshBucket()
-        {
-            currentBucket = await bucketService.GetBucketList(currentBucket.Id);
             LoadBucketState();
         }
 
+        /// <summary>
+        /// Loads the currentBucket list properties into the VM properties for display in UI
+        /// </summary>
         private void LoadBucketState()
         {
             BucketTitle = currentBucket.Title;
@@ -189,6 +208,9 @@ namespace XrnCourse.BucketList.ViewModels
             BucketItems = new ObservableCollection<BucketItem>(currentBucket.Items);
         }
 
+        /// <summary>
+        /// Saves the VM properties back to the current bucket
+        /// </summary>
         private void SaveBucketState()
         {
             currentBucket.Title = BucketTitle;
@@ -196,6 +218,11 @@ namespace XrnCourse.BucketList.ViewModels
             currentBucket.IsFavorite = BucketIsFavorite;
         }
 
+        /// <summary>
+        /// Validates the bucket using the validator
+        /// </summary>
+        /// <param name="bucket">The bucket to validate</param>
+        /// <returns></returns>
         private bool Validate(Bucket bucket)
         {
             var validationResult = bucketValidator.Validate(bucket);
@@ -225,6 +252,8 @@ namespace XrnCourse.BucketList.ViewModels
 
                     MessagingCenter.Send(this,
                         Constants.MessageNames.BucketSaved, currentBucket);
+
+                    await CoreMethods.PopPageModel(false, true);
                 }
             }
         );

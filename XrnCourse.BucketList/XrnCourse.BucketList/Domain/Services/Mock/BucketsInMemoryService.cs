@@ -1,10 +1,10 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using XrnCourse.BucketList.Domain.Models;
 
-namespace XrnCourse.BucketList.Domain.Services
+namespace XrnCourse.BucketList.Domain.Services.Mock
 {
     public class BucketsInMemoryService
     {

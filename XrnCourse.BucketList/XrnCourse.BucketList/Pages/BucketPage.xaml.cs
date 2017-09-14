@@ -6,13 +6,9 @@ namespace XrnCourse.BucketList.Pages
 {
     public partial class BucketPage : ContentPage
     {
-        
         public BucketPage()
         {
             InitializeComponent();
-            
-           
-
         }
 
         protected override void OnAppearing()

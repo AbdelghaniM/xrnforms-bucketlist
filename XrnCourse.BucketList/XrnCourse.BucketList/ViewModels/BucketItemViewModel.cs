@@ -1,26 +1,24 @@
 ﻿using FreshMvvm;
 using System;
-using System.Linq;
+using System.Diagnostics;
 using System.Windows.Input;
 using Xamarin.Forms;
 using XrnCourse.BucketList.Domain.Models;
-using XrnCourse.BucketList.Domain.Services;
+using XrnCourse.BucketList.Domain.Services.Mock;
 using XrnCourse.BucketList.Domain.Validators;
 
 namespace XrnCourse.BucketList.ViewModels
 {
     public class BucketItemViewModel : FreshBasePageModel
     {
-        private INavigation navigation;
-        private BucketsInMemoryService bucketService;
         private BucketItem currentItem;
         private BucketItemValidator bucketitemValidator;
+        private BucketsInMemoryService bucketService;
 
-        public BucketItemViewModel(INavigation navigation)
+        public BucketItemViewModel()
         {
-            this.navigation = navigation;
+            this.bucketService = new BucketsInMemoryService();
             bucketitemValidator = new BucketItemValidator();
-            bucketService = new BucketsInMemoryService();
         }
 
         #region Properties
@@ -103,14 +101,13 @@ namespace XrnCourse.BucketList.ViewModels
         public override void Init(object initData)
         {
             BucketItem item = initData as BucketItem;
-            if (item == null)
+            currentItem = item;
+            if (item.Id == Guid.Empty)
             {
-                currentItem = new BucketItem();
                 PageTitle = "New Item";
             }
             else
             {
-                currentItem = item;
                 PageTitle = "Edit Item";
             }
 
@@ -133,18 +130,27 @@ namespace XrnCourse.BucketList.ViewModels
 
         public ICommand SaveBucketItemCommand => new Command(
             async () => {
-                SaveItemState();
-                
-                if (Validate(currentItem))
+                try
                 {
-                    IsBusy = true;
-                    if(currentItem.Id == Guid.Empty)
-                        currentItem.Bucket.Items.Add(currentItem);
-                    await bucketService.SaveBucketList(currentItem.Bucket);
-                    IsBusy = false;
-                }
+                    SaveItemState();
 
-                await navigation.PopAsync(true);
+                    if (Validate(currentItem))
+                    {
+                        if (currentItem.Id == Guid.Empty)
+                        {
+                            currentItem.Bucket.Items.Add(currentItem);
+                            currentItem.Id = Guid.NewGuid();
+                        }
+                        //use coremethodes to Pop pages in FreshMvvm!
+                        await CoreMethods.PopPageModel(currentItem, false, true);
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex.Message);
+                    throw;
+                }
             }
         );
 
