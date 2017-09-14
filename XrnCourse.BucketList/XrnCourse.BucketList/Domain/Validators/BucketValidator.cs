@@ -8,21 +8,16 @@ using XrnCourse.BucketList.Domain.Models;
 
 namespace XrnCourse.BucketList.Domain.Validators
 {
-        public class BucketValidator : AbstractValidator<Bucket>
+        public class BucketItemValidator : AbstractValidator<BucketItem>
         {
-            public BucketValidator()
+            public BucketItemValidator()
             {
-                RuleFor(bucket => bucket.Title)
+                RuleFor(item => item.ItemDescription)
                     .NotEmpty()
-                    .WithMessage("Title cannot be empty")
+                    .WithMessage("Description cannot be empty")
                     .Length(3, 50)
                     .WithMessage("Length must be between 3 and 50");
 
-                RuleFor(bucket => bucket.Description)
-                    .NotEqual(b => b.Title)
-                    .WithMessage("Must be different than Title")
-                    .NotEmpty()
-                    .WithMessage("Description cannot be empty");
             }
         }
 }

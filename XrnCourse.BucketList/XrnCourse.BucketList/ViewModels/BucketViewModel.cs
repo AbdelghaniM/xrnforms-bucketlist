@@ -1,10 +1,14 @@
 ﻿using FluentValidation;
 using FreshMvvm;
+using System.Collections.ObjectModel;
 using System.Windows.Input;
 using Xamarin.Forms;
 using XrnCourse.BucketList.Domain.Models;
 using XrnCourse.BucketList.Domain.Services;
 using XrnCourse.BucketList.Domain.Validators;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace XrnCourse.BucketList.ViewModels
 {
@@ -125,6 +129,17 @@ namespace XrnCourse.BucketList.ViewModels
                 RaisePropertyChanged(nameof(BucketPercentComplete));
             }
         }
+
+        private ObservableCollection<BucketItem> bucketitems;
+        public ObservableCollection<BucketItem> BucketItems
+        {
+            get { return bucketitems; }
+            set
+            {
+                bucketitems = value;
+                RaisePropertyChanged(nameof(BucketItems));
+            }
+        }
         #endregion
 
         /// <summary>
@@ -137,6 +152,7 @@ namespace XrnCourse.BucketList.ViewModels
             if (bucket == null)
             {
                 currentBucket = new Bucket();
+                currentBucket.Items = new List<BucketItem>();
                 PageTitle = "New Bucket List";
             }
             else
@@ -145,10 +161,24 @@ namespace XrnCourse.BucketList.ViewModels
                 PageTitle = currentBucket.Title;
             }
 
-            LoadBucketState();
             base.Init(initData);
         }
 
+        
+        protected async override void ViewIsAppearing(object sender, EventArgs e)
+        {
+            base.ViewIsAppearing(sender, e);
+            if(currentBucket.Id != Guid.Empty)
+            {
+                await RefreshBucket();
+            }
+        }
+
+        private async Task RefreshBucket()
+        {
+            currentBucket = await bucketService.GetBucketList(currentBucket.Id);
+            LoadBucketState();
+        }
 
         private void LoadBucketState()
         {
@@ -156,6 +186,7 @@ namespace XrnCourse.BucketList.ViewModels
             BucketDescription = currentBucket.Description;
             BucketIsFavorite = currentBucket.IsFavorite;
             BucketPercentComplete = currentBucket.PercentCompleted.ToString("P0");
+            BucketItems = new ObservableCollection<BucketItem>(currentBucket.Items);
         }
 
         private void SaveBucketState()
@@ -167,9 +198,6 @@ namespace XrnCourse.BucketList.ViewModels
 
         private bool Validate(Bucket bucket)
         {
-            //BucketDescriptionError.IsVisible = false;
-            //BucketTitleError.IsVisible = false;
-
             var validationResult = bucketValidator.Validate(bucket);
             //loop through error to identify properties
             foreach (var error in validationResult.Errors)
@@ -177,12 +205,10 @@ namespace XrnCourse.BucketList.ViewModels
                 if (error.PropertyName == nameof(bucket.Title))
                 {
                     BucketTitleError = error.ErrorMessage;
-                    //lblErrorTitle.IsVisible = true;
                 }
                 if (error.PropertyName == nameof(bucket.Description))
                 {
                     BucketDescriptionError = error.ErrorMessage;
-                    //lblErrorDescription.IsVisible = true;
                 }
             }
             return validationResult.IsValid;
@@ -200,6 +226,32 @@ namespace XrnCourse.BucketList.ViewModels
                     MessagingCenter.Send(this,
                         Constants.MessageNames.BucketSaved, currentBucket);
                 }
+            }
+        );
+
+        public ICommand OpenItemPageCommand => new Command<BucketItem>(
+            async (BucketItem item) => {
+
+                SaveBucketState();
+
+                if (item == null)
+                {
+                    //new Bucket Item requested
+                    item = new BucketItem
+                    {
+                        Bucket = currentBucket,
+                        BucketId = currentBucket.Id
+                    };
+                }
+                await CoreMethods.PushPageModel<BucketItemViewModel>(item, false, true);
+            }
+        );
+
+        public ICommand DeleteItemCommand => new Command<BucketItem>(
+            async (BucketItem item) => {
+                item.Bucket.Items.Remove(item);
+                await bucketService.SaveBucketList(item.Bucket);
+                await RefreshBucket();
             }
         );
     }

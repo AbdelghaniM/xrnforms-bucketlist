@@ -10,12 +10,26 @@ namespace XrnCourse.BucketList.Pages
         public BucketPage()
         {
             InitializeComponent();
+            
+           
 
-            MessagingCenter.Subscribe(this, Constants.MessageNames.BucketSaved,
-                async (BucketViewModel sender, Bucket savedBucket) => {
-                    await DisplayAlert("Saved", $"Your bucket list {savedBucket.Title} has been saved", "Ok");
-                });
+        }
 
+        protected override void OnAppearing()
+        {
+            MessagingCenter.Subscribe<BucketViewModel,Bucket>(this, Constants.MessageNames.BucketSaved,
+               async (BucketViewModel sender, Bucket savedBucket) => {
+                   await DisplayAlert("Saved", $"Your bucket list {savedBucket.Title} has been saved", "Ok");
+               });
+
+            base.OnAppearing();
+        }
+
+        protected override void OnDisappearing()
+        {
+            MessagingCenter.Unsubscribe<BucketViewModel, Bucket>(this, Constants.MessageNames.BucketSaved);
+
+            base.OnDisappearing();
         }
     }
 }

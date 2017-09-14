@@ -8,7 +8,7 @@ namespace XrnCourse.BucketList
             /// <summary>
             /// Delay in milliseconds for fake service requests
             /// </summary>
-            public const int FakeDelay = 1000;
+            public const int FakeDelay = 0;
         }
 
         public static class MessageNames

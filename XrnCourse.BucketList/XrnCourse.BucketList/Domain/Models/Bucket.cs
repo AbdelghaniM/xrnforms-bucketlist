@@ -20,7 +20,7 @@ namespace XrnCourse.BucketList.Domain.Models
             get
             {
                 if (Items?.Count > 0)
-                    return Items.Count(i => i.CompletionDate.HasValue) / Items.Count;
+                    return (float)Items.Count(i => i.CompletionDate.HasValue) / (float)Items.Count;
                 else
                     return 0f;
             }

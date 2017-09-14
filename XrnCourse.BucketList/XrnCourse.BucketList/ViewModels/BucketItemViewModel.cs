@@ -1,0 +1,165 @@
+﻿using FreshMvvm;
+using System;
+using System.Linq;
+using System.Windows.Input;
+using Xamarin.Forms;
+using XrnCourse.BucketList.Domain.Models;
+using XrnCourse.BucketList.Domain.Services;
+using XrnCourse.BucketList.Domain.Validators;
+
+namespace XrnCourse.BucketList.ViewModels
+{
+    public class BucketItemViewModel : FreshBasePageModel
+    {
+        private INavigation navigation;
+        private BucketsInMemoryService bucketService;
+        private BucketItem currentItem;
+        private BucketItemValidator bucketitemValidator;
+
+        public BucketItemViewModel(INavigation navigation)
+        {
+            this.navigation = navigation;
+            bucketitemValidator = new BucketItemValidator();
+            bucketService = new BucketsInMemoryService();
+        }
+
+        #region Properties
+
+
+        private string pageTitle;
+        public string PageTitle
+        {
+            get { return pageTitle; }
+            set
+            {
+                pageTitle = value;
+                RaisePropertyChanged(nameof(pageTitle));
+            }
+        }
+
+        private bool isBusy;
+        public bool IsBusy
+        {
+            get { return isBusy; }
+            set
+            {
+                isBusy = value;
+                RaisePropertyChanged(nameof(IsBusy));
+            }
+        }
+
+        private string itemDescription;
+        public string ItemDescription
+        {
+            get { return itemDescription; }
+            set
+            {
+                itemDescription = value;
+                RaisePropertyChanged(nameof(ItemDescription));
+            }
+        }
+
+        private string itemDescriptionError;
+        public string ItemDescriptionError
+        {
+            get { return itemDescriptionError; }
+            set
+            {
+                itemDescriptionError = value;
+                RaisePropertyChanged(nameof(ItemDescriptionError));
+                RaisePropertyChanged(nameof(ItemDescriptionErrorVisible));
+            }
+        }
+
+        public bool ItemDescriptionErrorVisible
+        {
+            get { return !string.IsNullOrWhiteSpace(ItemDescriptionError); }
+        }
+
+        private bool itemIsComplete;
+        public bool ItemIsComplete
+        {
+            get { return itemIsComplete; }
+            set
+            {
+                itemIsComplete = value;
+                RaisePropertyChanged(nameof(ItemIsComplete));
+            }
+        }
+
+        private DateTime itemCompletionDate;
+        public DateTime ItemCompletionDate
+        {
+            get { return itemCompletionDate; }
+            set
+            {
+                itemCompletionDate = value;
+                RaisePropertyChanged(nameof(itemCompletionDate));
+            }
+        }
+
+        #endregion
+
+        public override void Init(object initData)
+        {
+            BucketItem item = initData as BucketItem;
+            if (item == null)
+            {
+                currentItem = new BucketItem();
+                PageTitle = "New Item";
+            }
+            else
+            {
+                currentItem = item;
+                PageTitle = "Edit Item";
+            }
+
+            LoadItemState();
+            base.Init(initData);
+        }
+
+        private void LoadItemState()
+        {
+            ItemDescription = currentItem.ItemDescription;
+            ItemIsComplete = currentItem.CompletionDate.HasValue;
+            ItemCompletionDate = currentItem.CompletionDate ?? DateTime.Now;
+        }
+
+        private void SaveItemState()
+        {
+            currentItem.ItemDescription = ItemDescription;
+            currentItem.CompletionDate = ItemIsComplete ? new DateTime?(ItemCompletionDate) : null;
+        }
+
+        public ICommand SaveBucketItemCommand => new Command(
+            async () => {
+                SaveItemState();
+                
+                if (Validate(currentItem))
+                {
+                    IsBusy = true;
+                    if(currentItem.Id == Guid.Empty)
+                        currentItem.Bucket.Items.Add(currentItem);
+                    await bucketService.SaveBucketList(currentItem.Bucket);
+                    IsBusy = false;
+                }
+
+                await navigation.PopAsync(true);
+            }
+        );
+
+        private bool Validate(BucketItem item)
+        {
+            var validationResult = bucketitemValidator.Validate(item);
+            //loop through error to identify properties
+            foreach (var error in validationResult.Errors)
+            {
+                if (error.PropertyName == nameof(item.ItemDescription))
+                {
+                    ItemDescriptionError = error.ErrorMessage;
+                }
+            }
+            return validationResult.IsValid;
+        }
+    }
+}

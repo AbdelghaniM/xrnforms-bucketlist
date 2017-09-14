@@ -2,7 +2,9 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:views="clr-namespace:XrnCourse.BucketList.Pages"
+             xmlns:bhv="clr-namespace:XrnCourse.BucketList.Behaviors" 
              Title="{Binding PageTitle}"
+             x:Name="page"
              x:Class="XrnCourse.BucketList.Pages.BucketPage">
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Save" Command="{Binding SaveBucketCommand}"></ToolbarItem>
@@ -34,6 +36,34 @@
                         <Label Text="{Binding BucketPercentComplete}" 
                         VerticalOptions="Center" HorizontalOptions="End" />
                     </StackLayout>
+                    <Button Text="Add new item" Command="{Binding OpenItemPageCommand}" HorizontalOptions="End" Margin="0,20,0,0" />
+                    <ListView ItemsSource="{Binding BucketItems}">
+                        <ListView.Behaviors>
+                            <bhv:EventToCommandBehavior 
+                            EventName="ItemTapped"  
+                            Command="{Binding OpenItemPageCommand}"
+                            EventArgsConverter="{StaticResource ItemTappedEventArgsConv}" />
+                        </ListView.Behaviors>
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <ViewCell.ContextActions>
+                                        <MenuItem Command="{Binding BindingContext.OpenItemPageCommand, Source={x:Reference page}}" 
+                                          CommandParameter="{Binding .}" 
+                                          Text="Edit" />
+                                        <MenuItem Command="{Binding BindingContext.DeleteItemCommand, Source={x:Reference page}}"
+                                          CommandParameter="{Binding .}"
+                                          Text="Delete"
+                                          IsDestructive="True" />
+                                    </ViewCell.ContextActions>
+                                    <StackLayout HeightRequest="50">
+                                        <Label Text="{Binding ItemDescription}" 
+                                    VerticalOptions="CenterAndExpand" HorizontalOptions="StartAndExpand" />
+                                    </StackLayout>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
                 </StackLayout>
             </ScrollView>
             <views:BusyView IsVisible="{Binding IsBusy}" />
