@@ -1,19 +1,19 @@
 ﻿using FreshMvvm;
 using System.Windows.Input;
 using Xamarin.Forms;
-using XrnCourse.BucketList.Domain.Services.Mock;
+using XrnCourse.BucketList.Domain.Services.Abstract;
 
 namespace XrnCourse.BucketList.ViewModels
 {
     public class SettingsViewModel : FreshBasePageModel
     {
-        AppSettingsInMemoryService settingsService;
-        UsersInMemoryService usersService;
+        IAppSettingsService settingsService;
+        IUsersService usersService;
 
-        public SettingsViewModel()
+        public SettingsViewModel(IAppSettingsService settingsService, IUsersService usersService)
         {
-            this.settingsService = new AppSettingsInMemoryService();
-            this.usersService = new UsersInMemoryService();
+            this.settingsService = settingsService;
+            this.usersService = usersService;
         }
 
         #region Properties

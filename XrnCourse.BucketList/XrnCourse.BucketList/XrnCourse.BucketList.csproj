@@ -46,6 +46,9 @@
     <Compile Include="Domain\Models\AppSettings.cs" />
     <Compile Include="Domain\Models\BucketItem.cs" />
     <Compile Include="Domain\Models\User.cs" />
+    <Compile Include="Domain\Services\Abstract\IAppSettingsService.cs" />
+    <Compile Include="Domain\Services\Abstract\IBucketsService.cs" />
+    <Compile Include="Domain\Services\Abstract\IUsersService.cs" />
     <Compile Include="Domain\Services\Mock\AppSettingsInMemoryService.cs" />
     <Compile Include="Domain\Services\Mock\BucketsInMemoryService.cs" />
     <Compile Include="Domain\Services\Mock\UsersInMemoryService.cs" />

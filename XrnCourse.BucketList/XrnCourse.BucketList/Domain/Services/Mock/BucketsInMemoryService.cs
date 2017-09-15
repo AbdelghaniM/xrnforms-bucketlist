@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using XrnCourse.BucketList.Domain.Models;
+using XrnCourse.BucketList.Domain.Services.Abstract;
 
 namespace XrnCourse.BucketList.Domain.Services.Mock
 {
-    public class BucketsInMemoryService
+    public class BucketsInMemoryService : IBucketsService
     {
         private static List<Bucket> bucketLists;
         private static List<Bucket> BucketLists

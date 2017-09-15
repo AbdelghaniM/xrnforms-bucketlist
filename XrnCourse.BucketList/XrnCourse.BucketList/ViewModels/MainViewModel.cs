@@ -5,19 +5,19 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 using XrnCourse.BucketList.Domain.Models;
-using XrnCourse.BucketList.Domain.Services.Mock;
+using XrnCourse.BucketList.Domain.Services.Abstract;
 
 namespace XrnCourse.BucketList.ViewModels
 {
     public class MainViewModel : FreshBasePageModel
     {
-        AppSettingsInMemoryService settingsService;
-        BucketsInMemoryService bucketListService;
+        IAppSettingsService settingsService;
+        IBucketsService bucketListService;
 
-        public MainViewModel()
+        public MainViewModel(IAppSettingsService settingsService, IBucketsService bucketListService)
         {
-            this.settingsService = new AppSettingsInMemoryService();
-            this.bucketListService = new BucketsInMemoryService();
+            this.settingsService = settingsService;
+            this.bucketListService = bucketListService;
         }
 
         private bool isBusy;

@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Threading.Tasks;
 using XrnCourse.BucketList.Domain.Models;
+using XrnCourse.BucketList.Domain.Services.Abstract;
 
 namespace XrnCourse.BucketList.Domain.Services.Mock
 {
-    public class AppSettingsInMemoryService
+    public class AppSettingsInMemoryService : IAppSettingsService
     {
         private static AppSettings currentSettings = new AppSettings
         {

@@ -7,25 +7,28 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 using XrnCourse.BucketList.Domain.Models;
-using XrnCourse.BucketList.Domain.Services.Mock;
+using XrnCourse.BucketList.Domain.Services.Abstract;
 using XrnCourse.BucketList.Domain.Validators;
 
 namespace XrnCourse.BucketList.ViewModels
 {
     public class BucketViewModel : FreshBasePageModel
     {
-        private AppSettingsInMemoryService settingsService;
-        private BucketsInMemoryService bucketService;
-        private UsersInMemoryService usersService;
+        private IAppSettingsService settingsService;
+        private IBucketsService bucketService;
+        private IUsersService usersService;
         private Bucket currentBucket;
         private User currentUser;
         private IValidator bucketValidator;
 
-        public BucketViewModel()
+        public BucketViewModel(
+            IAppSettingsService settingsService,
+            IBucketsService bucketService,
+            IUsersService usersService)
         {
-            this.settingsService = new AppSettingsInMemoryService();
-            this.bucketService = new BucketsInMemoryService();
-            this.usersService = new UsersInMemoryService();
+            this.settingsService = settingsService;
+            this.bucketService = bucketService;
+            this.usersService = usersService;
             bucketValidator = new BucketValidator();
         }
 
