@@ -1,4 +1,4 @@
-﻿using SQLite.Net;
+﻿using SQLite;
 using Xamarin.Forms;
 using XrnCourse.BucketList.Domain.Models;
 using XrnCourse.BucketList.Domain.Services.Abstract;

@@ -1,4 +1,4 @@
-﻿using SQLite.Net;
+﻿using SQLite;
 
 namespace XrnCourse.BucketList.Domain.Services.Abstract
 {

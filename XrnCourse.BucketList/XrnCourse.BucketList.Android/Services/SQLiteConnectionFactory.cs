@@ -1,8 +1,6 @@
-﻿using SQLite.Net;
-using SQLite.Net.Interop;
-using SQLite.Net.Platform.XamarinAndroid;
-using System;
+﻿using System;
 using System.IO;
+using SQLite;
 using Xamarin.Forms;
 using XrnCourse.BucketList.Domain.Services.Abstract;
 
@@ -17,9 +15,7 @@ namespace XrnCourse.BucketList.Droid.Services
             string path = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
             path = Path.Combine(path, databaseFileName);
 
-            return new SQLiteConnection(
-                new SQLitePlatformAndroid(),
-                path,
+            return new SQLiteConnection(path,
                 SQLiteOpenFlags.Create | SQLiteOpenFlags.ReadWrite,
                 storeDateTimeAsTicks: false
             );

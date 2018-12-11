@@ -1,5 +1,5 @@
-﻿using SQLite.Net.Attributes;
-using System;
+﻿using System;
+using SQLite;
 
 namespace XrnCourse.BucketList.Domain.Models
 {

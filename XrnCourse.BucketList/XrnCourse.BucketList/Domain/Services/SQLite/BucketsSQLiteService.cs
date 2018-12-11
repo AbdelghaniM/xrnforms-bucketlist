@@ -1,9 +1,9 @@
-﻿using SQLiteNetExtensions.Extensions;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using SQLiteNetExtensions.Extensions;
 using XrnCourse.BucketList.Domain.Models;
 using XrnCourse.BucketList.Domain.Services.Abstract;
 

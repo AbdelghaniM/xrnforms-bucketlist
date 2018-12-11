@@ -1,8 +1,8 @@
-﻿using SQLite.Net.Attributes;
-using SQLiteNetExtensions.Attributes;
+﻿using SQLite;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using SQLiteNetExtensions.Attributes;
 
 namespace XrnCourse.BucketList.Domain.Models
 {

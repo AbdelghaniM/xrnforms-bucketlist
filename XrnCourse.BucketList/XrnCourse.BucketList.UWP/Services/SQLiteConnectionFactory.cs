@@ -1,8 +1,6 @@
-﻿using SQLite.Net;
-using SQLite.Net.Interop;
-using SQLite.Net.Platform.WinRT;
-using System.IO;
+﻿using System.IO;
 using Windows.Storage;
+using SQLite;
 using Xamarin.Forms;
 using XrnCourse.BucketList.Domain.Services.Abstract;
 
@@ -18,7 +16,6 @@ namespace XrnCourse.BucketList.UWP.Services
             path = Path.Combine(path, databaseFileName);
 
             return new SQLiteConnection(
-                new SQLitePlatformWinRT(),
                 path,
                 SQLiteOpenFlags.Create | SQLiteOpenFlags.ReadWrite,
                 storeDateTimeAsTicks: false
